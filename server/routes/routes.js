@@ -10,4 +10,8 @@ app
     .route("/api/register")
     .post(pageController.postRegister);
 
+app
+    .route("/api/login")
+    .post(pageController.postLogin);
+
 module.exports = app;
