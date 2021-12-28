@@ -7,7 +7,6 @@ export default function Register() {
     const [message, setMessage] = useState("");
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState(false);
-    let inMemoryToken;
 
     async function postLogin(event) {
         event.preventDefault();
@@ -27,9 +26,9 @@ export default function Register() {
                     setError(false);
                     setMessage(jsonData.message);
                     localStorage.setItem("token", jsonData.token)
-                    // setTimeout(() => {
-                    //     window.location.href = "/dashboard";
-                    // }, 800);
+                    setTimeout(() => {
+                        window.location.href = "/dashboard";
+                    }, 800);
                 } else {
                     setIsFetching(false);
                     setError(true);
