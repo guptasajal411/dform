@@ -22,5 +22,6 @@ app
 app
     .route("/api/new")
     .get(pageController.getNew)
+    .post(pageController.postNew)
 
 module.exports = app;
