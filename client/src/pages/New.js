@@ -5,6 +5,9 @@ export default function New() {
     const [username, setUsername] = useState();
     const [formTitle, setFormTitle] = useState("");
     const [formDescription, setFormDescription] = useState("");
+    const [postFormError, setPostFormError] = useState();
+    const [postFormIsError, setPostFormIsError] = useState(false);
+    const [isFetching, setIsFetching] = useState(false);
     const [form, setForm] = useState(
         [
             {
@@ -39,15 +42,38 @@ export default function New() {
         dashboard();
     }, []);
 
-    function handleSubmit() {
-        const postData = {
-            formAuthorUsername: username,
-            formTitle,
-            formDescription,
-            formQuestions: form
-        }
-
-        console.log(postData);
+    async function handleSubmit(event) {
+        event.preventDefault();
+        setIsFetching(true);
+        window.scrollTo(0, 0);
+        await fetch("http://localhost:3001/api/new", {
+            headers: {
+                "x-access-token": localStorage.getItem("token"),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                formAuthorUsername: username,
+                formTitle,
+                formDescription,
+                formQuestions: form
+            }),
+            method: "POST"
+        })
+            .then(response => response.json())
+            .then(jsonData => {
+                setPostFormError(jsonData.message);
+                if (jsonData.status === "ok") {
+                    setPostFormIsError(false);
+                    setIsFetching(false);
+                    setTimeout(() => {
+                        window.location.href = "/dashboard";
+                    }, 800);
+                } else {
+                    setPostFormIsError(true);
+                    setIsFetching(false);
+                }
+            })
+            .catch(error => postFormError(error));
     }
 
     function handleAddQuestion() {
@@ -84,7 +110,7 @@ export default function New() {
 
     function handleTypeChange(index, event) {
         const questions = [...form];
-        questions[index].options=[""];
+        questions[index].options = [""];
         questions[index].type = event.target.value;
         setForm(questions);
     }
@@ -105,6 +131,7 @@ export default function New() {
             {username ? <h1>Welcome, {username}</h1> : <h1>Welcome</h1>}
             <hr />
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+            {<p style={{ color: setPostFormIsError ? "red" : "green" }}>{postFormError}</p>}
             {!errorMessage &&
                 <div>
                     <h1>Create a new form:</h1>
@@ -125,7 +152,7 @@ export default function New() {
                         <div key={`${question}-${index}`} style={{ border: "1px solid red", marginBottom: "10px", width: "fit-content", padding: "20px 10px" }}>
                             <div>
                                 <p>Question {index + 1}</p>
-                                <button onClick={index => handleQuestionRemoval(index)}>Remove this question</button>
+                                <button onClick={index => handleQuestionRemoval(index)} disabled={isFetching}>Remove this question</button>
                             </div>
                             <label>Question: </label>
                             <input
@@ -160,16 +187,16 @@ export default function New() {
                                             />
                                         </div>
                                     ))}
-                                    <button onClick={() => { handleAddOption(index) }}>Add new option</button>
+                                    <button onClick={() => { handleAddOption(index) }} disabled={isFetching}>Add new option</button>
                                 </div>
                             }
                         </div>
                     ))}
-                    <button onClick={() => { handleAddQuestion() }}>
+                    <button onClick={() => { handleAddQuestion() }} disabled={isFetching}>
                         Add a new question
                     </button>
-                    <button onClick={handleSubmit}>
-                        Create form
+                    <button onClick={handleSubmit} disabled={isFetching}>
+                        {isFetching ? <p style={{margin: "0"}}>Creating your form...</p> : <p style={{margin: "0"}}>Create form</p>}
                     </button>
                 </div>
             }
