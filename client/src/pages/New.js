@@ -3,15 +3,14 @@ import React, { useEffect, useState } from 'react'
 export default function New() {
     const [errorMessage, setErrorMessage] = useState();
     const [username, setUsername] = useState();
+    const [formTitle, setFormTitle] = useState("");
+    const [formDescription, setFormDescription] = useState("");
     const [form, setForm] = useState(
         [
             {
                 question: null,
                 description: null,
                 type: "text",
-                options: [{
-                    option: "option 1"
-                }]
             }
         ]
     );
@@ -41,17 +40,26 @@ export default function New() {
     }, []);
 
     function handleSubmit() {
-        console.log(JSON.stringify(form));
+        const postData = {
+            formAuthorUsername: username,
+            formTitle,
+            formDescription,
+            formQuestions: form
+        }
+
+        console.log(postData);
     }
 
     function handleAddQuestion() {
         const questions = [...form];
-        questions.push({
-            question: null,
-            description: null,
-            type: null,
-            options: null,
-        });
+        questions.push(
+            {
+                question: null,
+                description: null,
+                type: "text",
+                options: [""]
+            }
+        );
         setForm(questions);
     }
 
@@ -76,16 +84,20 @@ export default function New() {
 
     function handleTypeChange(index, event) {
         const questions = [...form];
+        questions[index].options=[""];
         questions[index].type = event.target.value;
         setForm(questions);
-        console.log(event.target.value);
+    }
+
+    function handleOptionChange(index, optionIndex, event) {
+        const questions = [...form];
+        questions[index].options[optionIndex] = event.target.value;
+        setForm(questions);
     }
 
     function handleAddOption(index) {
         const questions = [...form];
-        questions[index].options.push({
-            option: ""
-        })
+        questions[index].options.push("");
         setForm(questions);
     }
     return (
@@ -97,9 +109,17 @@ export default function New() {
                 <div>
                     <h1>Create a new form:</h1>
                     <label>Form title: </label>
-                    <input />
+                    <input
+                        type="text"
+                        value={formTitle}
+                        onChange={event => setFormTitle(event.target.value)}
+                    />
                     <label>Form description: </label>
-                    <input />
+                    <input
+                        type="text"
+                        value={formDescription}
+                        onChange={event => setFormDescription(event.target.value)}
+                    />
                     <br />
                     {form.map((question, index) => (
                         <div key={`${question}-${index}`} style={{ border: "1px solid red", marginBottom: "10px", width: "fit-content", padding: "20px 10px" }}>
@@ -128,9 +148,24 @@ export default function New() {
                                 <option value="scq">Single choice answer</option>
                             </select>
                             <br />
+                            {question.type !== "text" &&
+                                <div>
+                                    {question.options.map((singleOption, optionIndex) => (
+                                        <div>
+                                            <label>Option {optionIndex + 1}: </label>
+                                            <input
+                                                type="text"
+                                                value={singleOption}
+                                                onChange={event => handleOptionChange(index, optionIndex, event)}
+                                            />
+                                        </div>
+                                    ))}
+                                    <button onClick={() => { handleAddOption(index) }}>Add new option</button>
+                                </div>
+                            }
                         </div>
                     ))}
-                    <button onClick={handleAddQuestion}>
+                    <button onClick={() => { handleAddQuestion() }}>
                         Add a new question
                     </button>
                     <button onClick={handleSubmit}>
