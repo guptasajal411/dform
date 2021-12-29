@@ -8,7 +8,21 @@ const userSchema = new mongoose.Schema({
     lastName: {type: 'string', required: "Last name is required."},
     username: {type: 'string', required: "Username is required."},
     email: {type: 'string', required: "Email is required."},
-    password: {type: 'string', required: "Password is required."}
+    password: {type: 'string', required: "Password is required."},
+    forms: [{
+        formAuthorUsername: String,
+        formTitle: String,
+        formDescription: String,
+        formViews: Number,
+        formSubmissions: Number,
+        formSlug: String,
+        formQuestions: [{
+            question: String,
+            questionDescription: String,
+            questionType: String,
+            questionOptions: [String]
+        }]
+    }]
 });
 
 const User = new mongoose.model("User", userSchema);
