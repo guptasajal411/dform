@@ -17,6 +17,10 @@ app
 
 app
     .route("/api/dashboard")
-    .post(pageController.postDashboard);
+    .get(pageController.getDashboard);
+
+app
+    .route("/api/new")
+    .get(pageController.getNew)
 
 module.exports = app;
