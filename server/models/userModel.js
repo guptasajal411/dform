@@ -10,18 +10,12 @@ const userSchema = new mongoose.Schema({
     email: {type: 'string', required: "Email is required."},
     password: {type: 'string', required: "Password is required."},
     forms: [{
-        formAuthorUsername: String,
         formTitle: String,
         formDescription: String,
         formViews: Number,
         formSubmissions: Number,
         formSlug: String,
-        formQuestions: [{
-            question: String,
-            questionDescription: String,
-            questionType: String,
-            questionOptions: [String]
-        }]
+        formQuestions: []
     }]
 });
 
