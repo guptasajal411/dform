@@ -49,7 +49,7 @@ export default  function Dashboard() {
                         <p>{ formData.formDescription }</p>
                         <p>Views: { formData.formViews }</p>
                         <p>Submissions: { formData.formSubmissions }</p>
-                        <a href={ "/forms/" + formData.formSlug }>
+                        <a href={ "/form/" + formData.formSlug }>
                             <button>
                                 View this form ▶
                             </button>

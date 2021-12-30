@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import HomePage from "./pages/HomePage";
 import Dashboard from "./pages/Dashboard";
 import New from "./pages/New";
+import Form from "./pages/Form";
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 				<Route path="/register" element={ <Register /> } exact />
 				<Route path="/dashboard" element={ <Dashboard /> } exact />
 				<Route path="/new" element={ <New /> } exact />
+				<Route path="/form/:formSlug" element={ <Form /> }  />
 			</Routes>
 		</BrowserRouter>
 	);
