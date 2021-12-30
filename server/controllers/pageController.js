@@ -71,7 +71,8 @@ exports.postNew = (req, res) => {
                         formTitle: req.body.formTitle,
                         formDescription: req.body.formDescription,
                         formQuestions: req.body.formQuestions,
-                        formSlug: formSlug
+                        formSlug: formSlug,
+                        formViews: 0
                     });
                     await foundUser.save();
                     res.status(200).send({ status: 'ok', message: "Form created! Redirecting you to your dashboard..." });
@@ -86,3 +87,4 @@ exports.postNew = (req, res) => {
         }
     });
 }
+
