@@ -1,5 +1,3 @@
-export var JWTverifyStatus;
-
 export default async function verify() {
     if (localStorage.getItem("token")){
         await fetch("http://localhost:3001/api/verify", {
@@ -10,16 +8,13 @@ export default async function verify() {
         .then((jsonData) => {
             console.log(jsonData);
             if (jsonData.status === "ok"){
-                JWTverifyStatus = true;
-                console.log("JWTverifyStatus: " + JWTverifyStatus);
+                return true;
             } else {
-                JWTverifyStatus = false;
-                console.log("JWTverifyStatus: " + JWTverifyStatus);
+                return false;
             }
         });
     } else {
         // token not available
-        JWTverifyStatus = false;
-        console.log("JWTverifyStatus: " + JWTverifyStatus);
+        return false;
     }
 }
