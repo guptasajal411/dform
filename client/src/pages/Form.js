@@ -39,9 +39,13 @@ export default function Form() {
         dashboard();
     }, []);
 
-    function handleSubmit(event){
+    async function handleSubmit(event){
         event.preventDefault();
-        console.log(formQuestions);
+        await fetch("http://localhost:3001/api/form/" + params.formSlug, {
+            headers: { 'Content-Type': 'application/json '},
+            body: JSON.stringify(formQuestions),
+            method: "POST"
+        });
     }
 
     function handleTextAnswerChange(index, event){
