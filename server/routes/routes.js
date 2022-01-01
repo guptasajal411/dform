@@ -23,10 +23,11 @@ app
 app
     .route("/api/new")
     .get(pageController.getNew)
-    .post(pageController.postNew)
+    .post(pageController.postNew);
 
 app
     .route("/api/form/:formSlug")
     .get(formController.getForm)
+    .post(formController.postForm);
 
 module.exports = app;

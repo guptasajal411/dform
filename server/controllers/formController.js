@@ -1,11 +1,11 @@
 const User = require("../models/userModel");
 
 exports.getForm = (req, res) => {
-    User.findOne({forms: { $elemMatch: {formSlug: req.params.formSlug} }}, async (err, foundForm) => {
+    User.findOne({ forms: { $elemMatch: { formSlug: req.params.formSlug } } }, async (err, foundForm) => {
         if (err) {
             res.status(404).send({ status: "error", message: req.params.formSlug + " form not found." });
         } else {
-            if (foundForm){
+            if (foundForm) {
                 // form found
                 res.status(200).send({
                     status: "ok",
@@ -13,6 +13,33 @@ exports.getForm = (req, res) => {
                 });
                 foundForm.forms.filter(obj => obj.formSlug === req.params.formSlug)[0].formViews++;
                 await foundForm.save();
+            } else {
+                // no form found
+                res.status(404).send({ status: "error", message: req.params.formSlug + " form not found." });
+            }
+        }
+    });
+}
+
+exports.postForm = (req, res) => {
+    User.findOne({ forms: { $elemMatch: { formSlug: req.params.formSlug } } }, async (err, foundForm) => {
+        if (err) {
+            res.status(404).send({ status: "error", message: req.params.formSlug + " form not found." });
+        } else {
+            if (foundForm) {
+                // form found
+                foundForm.forms.filter(obj => obj.formSlug === req.params.formSlug)[0].formQuestions.map((question, questionIndex) => {
+                    const payload = req.body[questionIndex].answer[0]
+                    if (question.answers) {
+                        question.answers.push(payload);
+                    } else {
+                        question.answers = [];
+                        question.answers.push(payload);
+                    }
+                });
+                foundForm.markModified("forms");
+                await foundForm.save();
+                res.status(200).send({ status: 'ok', message: "Your response was submitted." });
             } else {
                 // no form found
                 res.status(404).send({ status: "error", message: req.params.formSlug + " form not found." });
