@@ -19,6 +19,16 @@ export default function Form() {
                     if (jsonData.status === "ok") {
                         setFormTitle(jsonData.form.formTitle);
                         setFormDescription(jsonData.form.formDescription);
+                        jsonData.form.formQuestions.map((question) => {
+                            if (question.type === "text"){
+                                question.answer = [""];
+                            } else {
+                                question.answer = [{}];
+                                question.options.map((option, optionIndex) => {
+                                    question.answer[0][optionIndex] = false;
+                                });
+                            }
+                        });
                         setFormQuestions(jsonData.form.formQuestions);
                         setFormViews(jsonData.form.formViews);
                     } else {
@@ -29,11 +39,38 @@ export default function Form() {
         dashboard();
     }, []);
 
+    function handleSubmit(event){
+        event.preventDefault();
+        console.log(formQuestions);
+    }
+
+    function handleTextAnswerChange(index, event){
+        const questions = [...formQuestions];
+        questions[index].answer[0] = event.target.value;
+        setFormQuestions(questions);
+    }
+
+    function handleMcqAnswerChange(index, optionIndex, event){
+        const questions = [...formQuestions];
+        const optionNumber = optionIndex.toString();
+        questions[index].answer[0][optionNumber] = event.target.checked;
+        setFormQuestions(questions);
+    }
+
+    function handleScqAnswerChange(index, optionIndex, event){
+        const questions = [...formQuestions];
+        questions[index].options.map((option, optionIndex) => {
+            questions[index].answer[0][optionIndex] = false;
+        });
+        questions[index].answer[0][optionIndex] = event.target.checked;
+        setFormQuestions(questions);
+    }
+
     return (
         <div>
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             { formTitle && formDescription && formViews && 
-                <form>
+                <form onSubmit={event => handleSubmit(event)}>
                     <h1>{formTitle}</h1>
                     <p>{formDescription}</p>
                     <p>Form views: {formViews}</p>
@@ -47,6 +84,8 @@ export default function Form() {
                                 <input
                                     type="text"
                                     placeholder="Type your answer..."
+                                    value={question.answer[0]}
+                                    onChange={(event) => { handleTextAnswerChange(index, event) }}
                                 />
                             }
                             {question.type === "mcq" &&
@@ -56,6 +95,7 @@ export default function Form() {
                                             <input
                                                 type="checkbox"
                                                 value={singleOption}
+                                                onChange={(event) => { handleMcqAnswerChange(index, optionIndex, event) }}
                                                 id={index + "." + optionIndex}
                                             />
                                             <label for={index + "." + optionIndex}>{singleOption}</label>
@@ -71,6 +111,7 @@ export default function Form() {
                                                 type="radio"
                                                 value={singleOption}
                                                 id={index + "." + optionIndex}
+                                                onChange={(event) => { handleScqAnswerChange(index, optionIndex, event) }}
                                                 name={index}
                                             />
                                             <label for={index + "." + optionIndex}>{singleOption}</label>
