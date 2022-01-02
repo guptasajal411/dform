@@ -4,6 +4,7 @@ const cors = require('cors');
 const pageController = require("../controllers/pageController");
 const authController = require("../controllers/authController");
 const formController = require("../controllers/formController");
+const responsesController = require("../controllers/responsesController");
 
 app.use(cors());
 app.use(express.json());
@@ -29,5 +30,9 @@ app
     .route("/api/form/:formSlug")
     .get(formController.getForm)
     .post(formController.postForm);
+
+app
+    .route("/api/responses/:formSlug")
+    .get(responsesController.getResponses);
 
 module.exports = app;
