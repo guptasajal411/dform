@@ -30,12 +30,21 @@ exports.postForm = (req, res) => {
             if (foundForm) {
                 // form found
                 foundForm.forms.filter(obj => obj.formSlug === req.params.formSlug)[0].formQuestions.map((question, questionIndex) => {
-                    const payload = req.body[questionIndex].answer[0]
-                    if (question.answers) {
-                        question.answers.push(payload);
+                    if (question.type === "text"){
+                        const payload = req.body[questionIndex].answer[0]
+                        if (question.answers) {
+                            question.answers.push(payload);
+                        } else {
+                            question.answers = [];
+                            question.answers.push(payload);
+                        }
                     } else {
-                        question.answers = [];
-                        question.answers.push(payload);
+                        if (question.answers){
+                            question.answers.push(req.body[questionIndex].answer);
+                        } else {
+                            question.answers = [];
+                            question.answers.push(req.body[questionIndex].answer)
+                        }
                     }
                 });
                 foundForm.markModified("forms");
