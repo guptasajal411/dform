@@ -7,6 +7,7 @@ exports.getForm = (req, res) => {
         } else {
             if (foundForm) {
                 // form found
+                foundForm.forms.filter(obj => obj.formSlug === req.params.formSlug)[0].formQuestions.map(v => delete v.answers)
                 res.status(200).send({
                     status: "ok",
                     form: foundForm.forms.filter(obj => obj.formSlug === req.params.formSlug)[0]
