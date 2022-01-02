@@ -54,6 +54,11 @@ export default  function Dashboard() {
                                 View this form ▶
                             </button>
                         </a>
+                        <a href={ "/responses/" + formData.formSlug }>
+                            <button>
+                                Responses ▶
+                            </button>
+                        </a>
                     </div>
                 )) }
             </div>
