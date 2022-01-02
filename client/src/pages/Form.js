@@ -23,9 +23,9 @@ export default function Form() {
                             if (question.type === "text"){
                                 question.answer = [""];
                             } else {
-                                question.answer = [{}];
+                                question.answer = [];
                                 question.options.map((option, optionIndex) => {
-                                    question.answer[0][optionIndex] = false;
+                                    question.answer[optionIndex] = false;
                                 });
                             }
                         });
@@ -56,17 +56,16 @@ export default function Form() {
 
     function handleMcqAnswerChange(index, optionIndex, event){
         const questions = [...formQuestions];
-        const optionNumber = optionIndex.toString();
-        questions[index].answer[0][optionNumber] = event.target.checked;
+        questions[index].answer[optionIndex] = event.target.checked;
         setFormQuestions(questions);
     }
 
     function handleScqAnswerChange(index, optionIndex, event){
         const questions = [...formQuestions];
         questions[index].options.map((option, optionIndex) => {
-            questions[index].answer[0][optionIndex] = false;
+            questions[index].answer[optionIndex] = false;
         });
-        questions[index].answer[0][optionIndex] = event.target.checked;
+        questions[index].answer[optionIndex] = event.target.checked;
         setFormQuestions(questions);
     }
 
