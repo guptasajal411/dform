@@ -1,0 +1,4 @@
+.homePage .section1{
+    height: 100vh;
+    background-image: url(../svg/HomePageBg.svg) no-repeat center center/cover;
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar/Navbar"
 
 export default function Register() {
     const [firstName, setFirstName] = useState("");
