@@ -49,7 +49,7 @@ exports.postForm = (req, res) => {
                 });
                 foundForm.markModified("forms");
                 await foundForm.save();
-                res.status(200).send({ status: 'ok', message: "Your response was submitted." });
+                res.status(200).send({ status: 'ok', message: "Your response was submitted!" });
             } else {
                 // no form found
                 res.status(404).send({ status: "error", message: req.params.formSlug + " form not found." });

@@ -9,6 +9,9 @@ export default function Form() {
     const [formDescription, setFormDescription] = useState("");
     const [formViews, setFormViews] = useState();
     const [formQuestions, setFormQuestions] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
+    const [error, setError] = useState(false);
+    const [submitMessage, setSubmitMessage] = useState();
 
     useEffect(() => {
         async function dashboard() {
@@ -21,7 +24,7 @@ export default function Form() {
                         setFormTitle(jsonData.form.formTitle);
                         setFormDescription(jsonData.form.formDescription);
                         jsonData.form.formQuestions.map((question) => {
-                            if (question.type === "text"){
+                            if (question.type === "text") {
                                 question.answer = [""];
                             } else {
                                 question.answer = [];
@@ -40,28 +43,39 @@ export default function Form() {
         dashboard();
     }, []);
 
-    async function handleSubmit(event){
+    async function handleSubmit(event) {
         event.preventDefault();
+        setIsFetching(true);
         await fetch(domain + "/api/form/" + params.formSlug, {
-            headers: { 'Content-Type': 'application/json '},
+            headers: { 'Content-Type': 'application/json ' },
             body: JSON.stringify(formQuestions),
             method: "POST"
-        });
+        })
+            .then(response => response.json())
+            .then(response => {
+                setIsFetching(false);
+                setSubmitMessage(response.message);
+                if (response.status === "ok") {
+                    setError(false);
+                } else {
+                    setError(true);
+                }
+            });
     }
 
-    function handleTextAnswerChange(index, event){
+    function handleTextAnswerChange(index, event) {
         const questions = [...formQuestions];
         questions[index].answer[0] = event.target.value;
         setFormQuestions(questions);
     }
 
-    function handleMcqAnswerChange(index, optionIndex, event){
+    function handleMcqAnswerChange(index, optionIndex, event) {
         const questions = [...formQuestions];
         questions[index].answer[optionIndex] = event.target.checked;
         setFormQuestions(questions);
     }
 
-    function handleScqAnswerChange(index, optionIndex, event){
+    function handleScqAnswerChange(index, optionIndex, event) {
         const questions = [...formQuestions];
         questions[index].options.map((option, optionIndex) => {
             questions[index].answer[optionIndex] = false;
@@ -73,7 +87,7 @@ export default function Form() {
     return (
         <div>
             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-            { formTitle && formDescription && formViews && 
+            {formTitle && formDescription && formViews &&
                 <form onSubmit={event => handleSubmit(event)}>
                     <h1>{formTitle}</h1>
                     <p>{formDescription}</p>
@@ -125,7 +139,12 @@ export default function Form() {
                             }
                         </div>
                     ))}
-                    <button type="submit">Submit</button>
+                    <button type="submit" disabled={isFetching}>
+                        {isFetching ? "Submitting..." : "Submit"}
+                    </button>
+                    <p style={{ color: error ? 'rgb(237, 66, 69)' : "green" }}>
+                        {submitMessage}
+                    </p>
                 </form>
             }
         </div>
