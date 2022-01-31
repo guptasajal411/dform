@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import domain from "../common/api";
 
 export default function Form() {
     const params = useParams();
@@ -11,7 +12,7 @@ export default function Form() {
 
     useEffect(() => {
         async function dashboard() {
-            await fetch("http://localhost:3001/api/form/" + params.formSlug, {
+            await fetch(domain + "/api/form/" + params.formSlug, {
                 method: "GET"
             })
                 .then(response => response.json())
@@ -41,7 +42,7 @@ export default function Form() {
 
     async function handleSubmit(event){
         event.preventDefault();
-        await fetch("http://localhost:3001/api/form/" + params.formSlug, {
+        await fetch(domain + "/api/form/" + params.formSlug, {
             headers: { 'Content-Type': 'application/json '},
             body: JSON.stringify(formQuestions),
             method: "POST"

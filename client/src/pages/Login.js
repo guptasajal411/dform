@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import domain from "../common/api";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/Login.css";
 import "./css/Fonts.css";
@@ -13,7 +14,7 @@ export default function Register() {
     async function postLogin(event) {
         event.preventDefault();
         setIsFetching(true);
-        await fetch("http://localhost:3001/api/login", {
+        await fetch(domain + "/api/login", {
             headers: { "content-type": "application/json" },
             method: "POST",
             body: JSON.stringify({

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import domain from "../common/api";
 
 export default  function Dashboard() {
     const [errorMessage, setErrorMessage] = useState();
@@ -7,7 +8,7 @@ export default  function Dashboard() {
     useEffect(() => {
         async function dashboard(){
             if (localStorage.getItem("token")){
-            await fetch("http://localhost:3001/api/dashboard", {
+            await fetch(domain + "/api/dashboard", {
                     headers: { "x-access-token": localStorage.getItem("token") },
                     method: "GET"
                 })

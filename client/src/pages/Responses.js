@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
+import domain from "../common/api";
 
 export default function Responses() {
     const params = useParams();
@@ -11,7 +12,7 @@ export default function Responses() {
 
     useEffect(() => {
         async function responses() {
-            await fetch("http://localhost:3001/api/responses/" + params.formSlug, {
+            await fetch(domain + "/api/responses/" + params.formSlug, {
                 headers: { "x-access-token": localStorage.getItem("token") },
                 method: "GET"
             })

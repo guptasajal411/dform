@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import domain from "../common/api";
 
 export default function New() {
     const [errorMessage, setErrorMessage] = useState();
@@ -21,7 +22,7 @@ export default function New() {
     useEffect(() => {
         async function dashboard() {
             if (localStorage.getItem("token")) {
-                await fetch("http://localhost:3001/api/new", {
+                await fetch(domain + "/api/new", {
                     headers: { "x-access-token": localStorage.getItem("token") },
                     method: "GET"
                 })
@@ -46,7 +47,7 @@ export default function New() {
         event.preventDefault();
         setIsFetching(true);
         window.scrollTo(0, 0);
-        await fetch("http://localhost:3001/api/new", {
+        await fetch(domain + "/api/new", {
             headers: {
                 "x-access-token": localStorage.getItem("token"),
                 "Content-Type": "application/json"
