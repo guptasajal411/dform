@@ -1,4 +1,58 @@
-.homePage .section1{
+.section1{
     height: 100vh;
-    background-image: url(../svg/HomePageBg.svg) no-repeat center center/cover;
+    background: url(../svg/HomePageBg.svg) no-repeat center center/cover, #505abc;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background: #505abc;
+}
+
+.main{
+    height: 70vh;
+}
+
+.heading{
+    font-weight: 700;
+}
+
+.description{
+    color: #bBD3F9;
+}
+
+.dformButton{
+    background-color: #363A8E;
+    color: #fff;
+    height: 3em;
+    border-radius: 0.5em;
+    padding: 0 2em;
+    line-height: 3em;
+    cursor: pointer;
+    border: none;
+    transition: all 0.33s;
+}
+
+.dformButton:hover{
+    background-color: #23265f;
+    transition: all 0.33s;
+}
+
+.dformButton:active{
+    transform: scale(0.95);
+}
+
+.features{
+    height: 20vh;
+}
+
+.featureImage{
+    max-width: 100%;
+    width: 25%;
+}
+
+@media only screen and (max-width: 992px) {
+    .featureImage{
+        width: 50%;
+    }
 }

@@ -1,0 +1,84 @@
+.registerContainer{
+    background: #36393f;
+    width: 30%;
+    border-radius: 0.5rem;
+    padding: 3rem 1rem;
+}
+
+.registerContainer .registerInput{
+    width: 100%;
+}
+
+.registerContainer .registerLabel{
+    font-size: 0.85em;
+    padding-bottom: 0.25em;
+}
+
+.registerContainer .registerInput{
+    background-color: #303339;
+    border: 0;
+    outline: 1px solid #04040588;
+    border-radius: 0.25em;
+    padding: 0.5em;
+    width: 100%;
+    transition: all 0.33s;
+}
+
+.registerContainer .registerInput:hover{
+    outline: 1px solid #040405;
+}
+
+.registerContainer .registerInput:focus-visible{
+    outline: 1px solid #01ADF1;
+}
+
+.registerContainer .registerButton{
+    width: 100%;
+    border-radius: 0.25em;
+    background: #5865f2;
+    border: 0;
+    outline: 0;
+    transition: all 0.33s;
+    margin-bottom: 0.25em;
+}
+
+.registerContainer .registerButton:hover{
+    background: #4959ff;
+}
+
+.registerContainer a.white2:hover{
+    text-decoration: underline!important;
+}
+
+@media only screen and (max-width: 1440px) {
+    .registerContainer{
+        width: 35%!important;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .registerContainer{
+        width: 40%!important;
+    }
+}
+@media only screen and (max-width: 992px) {
+    .registerContainer{
+        width: 45%!important;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .registerContainer{
+        width: 65%!important;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .registerContainer{
+        width: 80%!important;
+    }
+}
+
+@media only screen and (max-width: 440px) {
+    .registerContainer{
+        width: 90%!important;
+    }
+}

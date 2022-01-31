@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import Navbar from "../components/Navbar/Navbar"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./css/Register.css";
+import "./css/Fonts.css";
 
 export default function Register() {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -18,8 +18,6 @@ export default function Register() {
             headers: { "content-type": "application/json" },
             method: "POST",
             body: JSON.stringify({
-                firstName,
-                lastName,
                 username,
                 email,
                 password
@@ -43,58 +41,45 @@ export default function Register() {
     }
     return (
         <>
-            <Navbar />
-            <div>
-                <h1>Register</h1>
-                <form onSubmit={postRegister}>
-                    <input
-                        type="text"
-                        value={firstName}
-                        onChange={e => setFirstName(e.target.value)}
-                        placeholder="first name"
-                        required
-                    />
-                    <br />
-                    <input
-                        type="text"
-                        value={lastName}
-                        onChange={e => setLastName(e.target.value)}
-                        placeholder="last name"
-                        required
-                    />
-                    <br />
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                        placeholder="username"
-                        required
-                    />
-                    <br />
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        placeholder="email"
-                        required
-                    />
-                    <br />
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        placeholder="password"
-                        required
-                    />
-                    <br />
-                    <button type="submit" disabled={isFetching}>
-                        {isFetching ? "Registering you..." : "Register"}
-                    </button>
-                    <br />
-                    <p style={{ color: error ? 'red' : 'green' }}>
-                        {message}
-                    </p>
-                </form>
+            <div className="section1 d-flex align-items-center justify-content-center">
+                <div className="registerContainer">
+                    <form onSubmit={postRegister}>
+                        <h3 className="white text-center mb-4">Create an account</h3>
+                        <div className="mx-3">
+                            <p className="registerLabel white2 m-0 pt-2">EMAIL</p>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                className="registerInput mb-4 white"
+                                required
+                            />
+                            <p className="registerLabel white2 m-0">USERNAME</p>
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
+                                className="registerInput mb-4 white"
+                                required
+                            />
+                            <p className="registerLabel white2 m-0">PASSWORD</p>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                className="registerInput mb-4 white"
+                                required
+                            />
+                            <button type="submit" disabled={isFetching} className="registerButton white py-2" style={{ background: isFetching && "#4959ff" }}>
+                                {isFetching ? "Registering you..." : "Register"}
+                            </button>
+                            <p className="white3">Already have an account? <a href="/login" className="white2">Login</a> </p>
+                            <p style={{ color: error && 'rgb(237, 66, 69)' }}>
+                                {error && message}
+                            </p>
+                        </div>
+                    </form>
+                </div>
             </div>
         </>
     );

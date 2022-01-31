@@ -1,0 +1,63 @@
+.formContainer{
+    background: #36393f;
+    width: 50%;
+    border-radius: 0.5rem;
+    padding: 3rem 1rem;
+}
+
+.formContainer .image{
+    background: url(../svg/login.svg) no-repeat center center/contain;
+}
+
+.formContainer a.white2:hover{
+    text-decoration: underline!important;
+}
+
+.formContainer .inputLabel{
+    font-size: 0.85em;
+    padding-bottom: 0.25em;
+}
+
+.formContainer .formInput{
+    background-color: #303339;
+    border: 0;
+    outline: 1px solid #04040588;
+    border-radius: 0.25em;
+    padding: 0.5em;
+    width: 100%;
+    transition: all 0.33s;
+}
+
+.formContainer .formInput:hover{
+    outline: 1px solid #040405;
+}
+
+.formContainer .formInput:focus-visible{
+    outline: 1px solid #01ADF1;
+}
+
+.formContainer .formButton{
+    width: 100%;
+    border-radius: 0.25em;
+    background: #5865f2;
+    border: 0;
+    outline: 0;
+    transition: all 0.33s;
+    margin-bottom: 0.25em;
+}
+
+.formContainer .formButton:hover{
+    background: #4959ff;
+}
+
+@media only screen and (max-width: 768px) {
+    .formContainer{
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .formContainer{
+        width: 90%;
+    }
+}

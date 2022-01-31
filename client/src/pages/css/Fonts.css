@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap');
+*{
+    font-family: 'Comfortaa', sans;
+}
+
+.white{
+    color: #fff;
+}
+
+.white:hover{
+    color: #fff;
+}
+
+.white2{
+    color: #b9bbbe;
+}
+
+.white3{
+    color: #72767d
+}
+
+.white2:hover{
+    color: #b9bbbe;
+}
+
+a{
+    cursor: pointer;
+    text-decoration: none!important;
+}
+
+a:hover{
+    color: white;
+}
