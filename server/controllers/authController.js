@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 exports.postRegister = (req, res) => {
-    if (req.body.firstName && req.body.lastName && req.body.email && req.body.password && req.body.username) {
+    if (req.body.email && req.body.password && req.body.username) {
         // request body contains all required fields
         User.find({
             $or: [
@@ -20,8 +20,6 @@ exports.postRegister = (req, res) => {
                         }
                         // Store hash in your password DB.
                         const newUser = new User({
-                            firstName: req.body.firstName,
-                            lastName: req.body.lastName,
                             username: req.body.username,
                             email: req.body.email,
                             password: hash,
@@ -32,11 +30,12 @@ exports.postRegister = (req, res) => {
                 });
             } else {
                 // user already exists
-                res.status(501).send({ status: "error", message: "Username/email already exists, please try again." });
+                res.status(501).send({ status: "error", message: "Username/email already exists." });
             }
         });
     } else {
         // request body doesnt contain all required fields
+        console.log(req.body)
         res.status(501).send({ status: "error", message: "Please enter all fields before submitting." });
     }
 }
