@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import UserContext from '../context/UserContext';
 import domain from "../common/api";
 
 export default  function Dashboard() {
     const [errorMessage, setErrorMessage] = useState();
     const [username, setUsername] = useState();
     const [dashboardData, setDashboardData] = useState([]);
+    const context = useContext(UserContext);
     useEffect(() => {
         async function dashboard(){
             if (localStorage.getItem("token")){
@@ -34,6 +36,9 @@ export default  function Dashboard() {
         <div>
             { username ? <h1>Welcome, {username}</h1> : <h1>Welcome</h1> }
             <hr />
+            <div>
+                context: {context}
+            </div>
             { errorMessage && <p style={{ color: "red" }}>{ errorMessage }</p> }
             { !errorMessage &&
             <div>
