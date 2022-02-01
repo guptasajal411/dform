@@ -49,7 +49,7 @@ exports.postLogin = (req, res) => {
                 bcrypt.compare(req.body.password, foundUser.password, (err, response) => {
                     if (response) {
                         const token = jwt.sign({ email: req.body.email }, process.env.TOKEN_SIGN_KEY, { expiresIn: "1h" });
-                        res.status(200).send({ status: "ok", message: "Login successful, redirecting...", token });
+                        res.status(200).send({ status: "ok", message: "Login successful, redirecting...", token, username: foundUser.username });
                     } else if (err) {
                         res.status(501).send({ status: "error", message: "An error occurred." });
                     } else {

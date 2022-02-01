@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "./context/UserContext";
 import Login from "./pages/Login";
@@ -10,9 +10,9 @@ import Form from "./pages/Form";
 import Responses from "./pages/Responses";
 
 function App() {
-	const [user, setUser] = React.useState(null);
+	const [value, setValue] = useState("user not available")
 	return (
-		<UserContext.Provider value={user, setUser}>
+		<UserContext.Provider value={{value, setValue}}>
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<HomePage />} exact />

@@ -6,7 +6,7 @@ export default  function Dashboard() {
     const [errorMessage, setErrorMessage] = useState();
     const [username, setUsername] = useState();
     const [dashboardData, setDashboardData] = useState([]);
-    const context = useContext(UserContext);
+    const {value, setValue} = useContext(UserContext);
     useEffect(() => {
         async function dashboard(){
             if (localStorage.getItem("token")){
@@ -37,7 +37,7 @@ export default  function Dashboard() {
             { username ? <h1>Welcome, {username}</h1> : <h1>Welcome</h1> }
             <hr />
             <div>
-                context: {context}
+                user: {value}
             </div>
             { errorMessage && <p style={{ color: "red" }}>{ errorMessage }</p> }
             { !errorMessage &&

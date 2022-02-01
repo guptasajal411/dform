@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import {Link, useNavigate} from "react-router-dom";
 import domain from "../common/api";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/Register.css";
 import "./css/Fonts.css";
 
 export default function Register() {
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -31,7 +33,7 @@ export default function Register() {
                     setError(false);
                     setMessage(jsonData.message);
                     setTimeout(() => {
-                        window.location.href = "/login";
+                        navigate("/login");
                     }, 800);
                 } else if (jsonData.status === "error") {
                     setIsFetching(false);
@@ -74,7 +76,7 @@ export default function Register() {
                             <button type="submit" disabled={isFetching} className="registerButton white py-2" style={{ background: isFetching && "#4959ff" }}>
                                 {isFetching ? "Registering you..." : "Register"}
                             </button>
-                            <p className="white3">Already have an account? <a href="/login" className="white2">Login</a> </p>
+                            <p className="white3">Already have an account? <Link to="/login" className="white2">Login</Link> </p>
                             <p style={{ color: error && 'rgb(237, 66, 69)' }}>
                                 {error && message}
                             </p>

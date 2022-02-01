@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import {useNavigate, Link} from "react-router-dom";
+import UserContext from '../context/UserContext';
 import domain from "../common/api";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/Login.css";
 import "./css/Fonts.css";
 
 export default function Register() {
+    const navigate = useNavigate();
+    const { value, setValue } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState(false);
+
+    console.log(value)
 
     async function postLogin(event) {
         event.preventDefault();
@@ -22,21 +28,23 @@ export default function Register() {
                 password
             })
         })
-            .then(response => response.json())
-            .then(jsonData => {
-                if (jsonData.token) {
-                    setIsFetching(false);
-                    setError(false);
-                    setMessage(jsonData.message);
-                    localStorage.setItem("token", jsonData.token)
-                    window.location.href = "/dashboard";
-                } else {
-                    setIsFetching(false);
-                    setError(true);
-                    setMessage(jsonData.message);
-                    localStorage.removeItem("token");
-                }
-            });
+        .then(response => response.json())
+        .then(jsonData => {
+            if (jsonData.token) {
+                setIsFetching(false);
+                setError(false);
+                setMessage(jsonData.message);
+                localStorage.setItem("token", jsonData.token);
+                setValue(jsonData.username);
+                navigate("/");
+            } else {
+                setIsFetching(false);
+                setError(true);
+                setMessage(jsonData.message);
+                localStorage.removeItem("token");
+                setValue("error in login user");
+            }
+        });
     }
     return (
         <>
@@ -67,7 +75,7 @@ export default function Register() {
                                     <button type="submit" disabled={isFetching} className="formButton py-2 white" style={{ background: isFetching && "#4959ff" }}>
                                         {isFetching ? "Logging you in..." : "Login"}
                                     </button>
-                                    <p className="smallText white3">Need an account? <a href="/register" className="white2">Register</a></p>
+                                    <p className="smallText white3">Need an account? <Link to="/register" className="white2">Register</Link></p>
                                     <p style={{ color: error && 'rgb(237, 66, 69)' }}>
                                         {error && message}
                                     </p>
