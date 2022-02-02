@@ -2,26 +2,17 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
 exports.getDashboard = (req, res) => {
-    const token = req.headers["x-access-token"];
-    jwt.verify(token, process.env.TOKEN_SIGN_KEY, (err, decoded) => {
-        if (decoded) {
-            User.findOne({ email: decoded.email }, (err, foundUser) => {
-                if (foundUser) {
-                    res.status(200).send({
-                        status: 'ok',
-                        message: "JWT is valid.",
-                        email: foundUser.email,
-                        username: foundUser.username,
-                        dashboardData: foundUser.forms.reverse()
-                    });
-                } else {
-                    res.status(501).send({ status: 'error', message: "JWT is invalid. Please log in again." });
-                }
+    console.log("going through main function")
+    User.findOne({ username: req.headers["username"] }, (err, foundUser) => {
+        if (foundUser) {
+            res.status(200).send({
+                status: 'ok',
+                message: "Dashboard data returned.",
+                username: foundUser.username,
+                dashboardData: foundUser.forms.reverse()
             });
-        } else if (err) {
-            res.status(501).send({ status: 'error', message: "An error occurred while verifying JWT. Please log in again." });
         } else {
-            res.status(501).send({ status: "error", message: "JWT is invalid. Please log in again." });
+            res.status(501).send({ status: 'error', message: "User not found. Please log in again. Redirecting..." });
         }
     });
 }
