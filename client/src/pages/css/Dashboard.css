@@ -1,0 +1,96 @@
+.dashboardSection2 {
+    height: 80vh;
+    background: #36393f;
+    border-radius: 0.5rem;
+}
+
+.dashboardSection2 .metadata {
+    height: 25vh;
+}
+
+.dashboardRule {
+    background: white;
+    margin: 0;
+}
+
+.dashboardSection2 .horizontalScroll {
+    height: 55vh;
+}
+
+.dashboardSection2
+    .horizontalScroll
+    .formBoxContainer::-webkit-scrollbar-track {
+    border-radius: 100px;
+    background-color: transparent;
+}
+
+.dashboardSection2 .horizontalScroll .formBoxContainer::-webkit-scrollbar {
+    width: 12px;
+    border-radius: 100px;
+    background-color: transparent;
+    height: 0.33em;
+}
+
+.dashboardSection2
+    .horizontalScroll
+    .formBoxContainer::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: #b9bbbe;
+}
+
+.dashboardSection2 .horizontalScroll .formBoxContainer {
+    overflow: auto;
+    width: 100%;
+}
+
+.dashboardSection2 .horizontalScroll .formBox {
+    min-width: 20vw;
+    min-height: 20vw;
+    max-width: 20vw;
+    max-height: 20vw;
+    margin: 0.2em 0.5em 0.75em 0.5em;
+    background: #303339;
+    border-radius: 0.5em;
+    outline: 1px solid #04040588;
+    transition: all 0.33s;
+    position: relative;
+}
+
+.dashboardSection2 .horizontalScroll .formBox .absoluteChild{
+    position: absolute;
+    bottom: 1.5rem;
+}
+
+.dashboardSection2 .horizontalScroll .formBox:first-child .material-icons-outlined{
+    font-size: 7.5em;
+}
+
+.dashboardSection2 .horizontalScroll .formBox:first-child{
+    border: 4px dashed #04040588;
+    outline: none;
+    cursor: pointer;
+}
+
+.dashboardSection2 .horizontalScroll .formBox:first-child:hover{
+    outline: none;
+    border: 2px dashed #01adf1;
+    color: #01adf1;
+}
+
+.dashboardSection2 .horizontalScroll .formBox:hover {
+    outline: 1px solid #01adf1;
+}
+
+.dashboardSection2 .horizontalScroll .formBox:active{
+    background: #04040580;
+}
+
+@media only screen and (max-width: 992px) {
+    .dashboardSection2 .horizontalScroll .formBox {
+        margin: 0.5em;
+        min-width: 225px;
+        min-height: 225px;
+        max-width: 225px;
+        max-height: 225px;
+    }
+}

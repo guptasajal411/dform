@@ -1,33 +1,94 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap');
-*{
-    font-family: 'Comfortaa', sans;
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+* {
+    font-family: "Comfortaa", sans;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.white{
+.white {
     color: #fff;
 }
 
-.white:hover{
+.white:hover {
     color: #fff;
 }
 
-.white2{
+.white2 {
     color: #b9bbbe;
 }
 
-.white3{
-    color: #72767d
+.white3 {
+    color: #72767d;
 }
 
-.white2:hover{
+.white3:hover {
+    color: #72767d;
+}
+
+.white2:hover {
     color: #b9bbbe;
 }
 
-a{
+a {
     cursor: pointer;
-    text-decoration: none!important;
+    text-decoration: none !important;
 }
 
-a:hover{
+a:hover {
     color: white;
+}
+
+.primaryButton {
+    background-color: #363a8e;
+    color: #fff;
+    height: 3em;
+    border-radius: 0.5em;
+    padding: 0 2em;
+    line-height: 3em;
+    cursor: pointer;
+    border: none;
+    transition: all 0.33s;
+}
+
+.primaryButton:hover {
+    background-color: #23265f;
+    transition: all 0.33s;
+}
+
+.primaryButton:active {
+    transform: scale(0.95);
+}
+
+.secondaryButton {
+    background-color: transparent;
+    color: #fff;
+    height: 3em;
+    border-radius: 0.5em;
+    padding: 0 2em;
+    line-height: 3em;
+    cursor: pointer;
+    border: 2px solid #363a8e;
+    transition: all 0.33s;
+}
+
+.secondaryButton:hover {
+    background-color: #363a8e;
+    transition: all 0.33s;
+}
+
+.secondaryButton:active {
+    transform: scale(0.95);
+}
+
+.truncateToOneLine {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hoverUnderline:hover{
+    text-decoration: underline!important;
 }
