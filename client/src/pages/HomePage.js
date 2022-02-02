@@ -12,7 +12,7 @@ export default function HomePage() {
             <div className="homePage">
                 <div className="section1">
                     <div className="container pt-3">
-                        <div className="row justify-content-around">
+                        <div className="row justify-content-around align-items-center">
                             <div className="col-4">
                                 <h4>
                                     <Link to="/" className="white">dForm</Link>
