@@ -8,6 +8,7 @@ import "./css/Dashboard.css";
 
 export default function Dashboard() {
     const navigate = useNavigate();
+    const [isLoading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState();
     const [dashboardData, setDashboardData] = useState([]);
     const { user, setUser } = useContext(UserContext);
@@ -42,6 +43,7 @@ export default function Dashboard() {
                 })
                     .then(response => response.json())
                     .then((jsonData) => {
+                        setLoading(false);
                         if (jsonData.status === "ok") {
                             setDashboardData(jsonData.dashboardData);
                         } else {
@@ -56,6 +58,7 @@ export default function Dashboard() {
                     });
             } else {
                 // token not available
+                setLoading(false);
                 setErrorMessage("Please try to log in first. Redirecting...");
                 setTimeout(() => {
                     setUser({ username: null, token: null });
@@ -102,27 +105,37 @@ export default function Dashboard() {
                         <h2 className="white text-sm-start text-center mt-sm-0 mt-2">Welcome, {user.username}</h2>
                         <div className="row">
                             <div className="col-6">
-                                <h4 className="white2 my-3 text-start">Your Forms</h4>
+                            {isLoading ? <h4 className="white2 my-3 text-start">Loading your forms...</h4> : <h4 className="white2 my-3 text-start">Your Forms</h4>}
                             </div>
                             <div className="col-6">
-                                {(() => {
-                                    switch (dashboardData.length) {
-                                        case 0: return <h4 className="white2 my-3 text-end">No forms</h4>;
-                                        case 1: return <h4 className="white2 my-3 text-end">1 form</h4>;
-                                        default: return <h4 className="white2 my-3 text-end">{dashboardData.length} forms</h4>;
-                                    }
-                                })()}
+                                {!isLoading
+                                &&  (() => {
+                                        switch (dashboardData.length) {
+                                            case 0: return <h4 className="white2 my-3 text-end">No forms</h4>;
+                                            case 1: return <h4 className="white2 my-3 text-end">1 form</h4>;
+                                            default: return <h4 className="white2 my-3 text-end">{dashboardData.length} forms</h4>;
+                                        }
+                                    })()
+                                }
                             </div>
                         </div>
                         <hr className="dashboardRule" />
                     </div>
                     <div className="horizontalScroll d-flex align-items-center justify-content-center">
                         <div ref={scrollRef} className="d-flex flex-row formBoxContainer">
-                            <div className="formBox d-flex align-items-center justify-content-center" onClick={() => { navigate("/new") }}>
-                                <i tabindex="0" cursor="default" class="material-icons-outlined">
-                                    add
-                                </i>
-                            </div>
+                            {isLoading
+                                ? <div className="formBox d-flex align-items-center justify-content-center">
+                                    <i tabindex="0" cursor="default" class="material-icons-outlined">
+                                        more_horiz
+                                    </i>
+                                </div>
+                                : <div className="formBox d-flex align-items-center justify-content-center" onClick={() => { navigate("/new") }}>
+                                    <i tabindex="0" cursor="default" class="material-icons-outlined">
+                                        add
+                                    </i>
+                                </div>
+                            }
+
                             {dashboardData.map(formData => (
                                 <div className="formBox white2 p-4">
                                     <Link to={"/form/" + formData.formSlug}>
@@ -157,49 +170,10 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             ))}
-                            {/* <div className="formBox"></div>
-                            <div className="formBox"></div>
-                            <div className="formBox"></div>
-                            <div className="formBox"></div>
-                            <div className="formBox"></div> */}
                         </div>
                     </div>
                 </div>
             </div>
-            {/* <div>
-                {user.username ? <h1>Welcome, {user.username}</h1> : <h1>Welcome</h1>}
-                <hr />
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                {!errorMessage &&
-                    <div>
-                        <h1>Your forms</h1>
-                        <a href="/new">
-                            <button>
-                                Create a new form ▶
-                            </button>
-                        </a>
-                        <p>Your total forms: {dashboardData.length}</p>
-                        {dashboardData.map((formData) => (
-                            <div style={{ border: "1px solid red" }}>
-                                <h2>{formData.formTitle}</h2>
-                                <p>{formData.formDescription}</p>
-                                <p>Views: {formData.formViews}</p>
-                                <p>Submissions: {formData.formSubmissions}</p>
-                                <a href={"/form/" + formData.formSlug}>
-                                    <button>
-                                        View this form ▶
-                                    </button>
-                                </a>
-                                <a href={"/responses/" + formData.formSlug}>
-                                    <button>
-                                        Responses ▶
-                                    </button>
-                                </a>
-                            </div>
-                        ))}
-                    </div>
-                }
-            </div> */}
         </div>
     );
 }

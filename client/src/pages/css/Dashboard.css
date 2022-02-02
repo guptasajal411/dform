@@ -94,3 +94,13 @@
         max-height: 225px;
     }
 }
+
+@media only screen and (max-width: 576px) {
+    .dashboardSection2 {
+        height: 65vh;
+    }
+
+    .dashboardSection2 .horizontalScroll {
+        height: 45vh;
+    }
+}
