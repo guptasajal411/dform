@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {Link, useNavigate} from "react-router-dom";
+import UserContext from '../context/UserContext';
 import domain from "../common/api";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/Register.css";
@@ -13,6 +14,8 @@ export default function Register() {
     const [message, setMessage] = useState("");
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState(false);
+
+    const {user, setUser} = useContext(UserContext);
 
     async function postRegister(event) {
         event.preventDefault();

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import {useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import UserContext from '../context/UserContext';
 import domain from "../common/api";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,14 +8,12 @@ import "./css/Fonts.css";
 
 export default function Register() {
     const navigate = useNavigate();
-    const { value, setValue } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState(false);
-
-    console.log(value)
 
     async function postLogin(event) {
         event.preventDefault();
@@ -28,23 +26,25 @@ export default function Register() {
                 password
             })
         })
-        .then(response => response.json())
-        .then(jsonData => {
-            if (jsonData.token) {
-                setIsFetching(false);
-                setError(false);
-                setMessage(jsonData.message);
-                localStorage.setItem("token", jsonData.token);
-                setValue(jsonData.username);
-                navigate("/");
-            } else {
-                setIsFetching(false);
-                setError(true);
-                setMessage(jsonData.message);
-                localStorage.removeItem("token");
-                setValue("error in login user");
-            }
-        });
+            .then(response => response.json())
+            .then(jsonData => {
+                if (jsonData.token) {
+                    setIsFetching(false);
+                    setError(false);
+                    setMessage(jsonData.message);
+                    localStorage.setItem("token", jsonData.token);
+                    localStorage.setItem("username", jsonData.username);
+                    setUser({ username: jsonData.username, token: jsonData.token })
+                    navigate("/dashboard");
+                } else {
+                    setIsFetching(false);
+                    setError(true);
+                    setMessage(jsonData.message);
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("username");
+                    setUser({ username: null, token: null });
+                }
+            });
     }
     return (
         <>

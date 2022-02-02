@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import UserContext from '../context/UserContext'
 import "./css/HomePage.css";
 import "./css/Fonts.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function HomePage() {
-    const { value, setValue } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     return (
         <>
             <div className="homePage">
@@ -17,7 +17,6 @@ export default function HomePage() {
                                 <h4>
                                     <Link to="/" className="white">dForm</Link>
                                 </h4>
-                                <h1>{ value }</h1>
                             </div>
                             <div className="col-4">
                                 <h4 className="float-end">
@@ -29,9 +28,15 @@ export default function HomePage() {
                     <div className="container text-center main pt-3 d-flex align-items-center justify-content-center flex-column">
                         <h1 className="heading py-4 font-weight-bold white">Welcome to dForm</h1>
                         <p className="description pb-4">Having trouble making forms? We've got you covered! With dForm's user friendly UI, its easier than ever creating and managing forms.</p>
+                        {user.username
+                        ?
+                        <Link to="/dashboard">
+                            <button className="dformButton">Go to your Dashboard</button>
+                        </Link>
+                        :
                         <Link to="/login">
                             <button className="dformButton">Create your own form!</button>
-                        </Link>
+                        </Link>}
                     </div>
                     <div className="container pt-3 text-center features">
                         <div className="row">

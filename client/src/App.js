@@ -10,17 +10,18 @@ import Form from "./pages/Form";
 import Responses from "./pages/Responses";
 
 function App() {
-	const [value, setValue] = useState("user not available")
+	const [user, setUser] = useState({ username: localStorage.getItem("username"), token: localStorage.getItem("token") } || null);
+	console.log(user)
 	return (
-		<UserContext.Provider value={{value, setValue}}>
+		<UserContext.Provider value={{user: user, setUser: setUser}}>
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<HomePage />} exact />
-					<Route path="/login" element={<Login />} exact />
-					<Route path="/register" element={<Register />} exact />
-					<Route path="/dashboard" element={<Dashboard />} exact />
-					<Route path="/new" element={<New />} exact />
-					<Route path="/responses/:formSlug" element={<Responses />} />
+					<Route path="/login" element={user.username ? <Dashboard /> : <Login />} exact />
+					<Route path="/register" element={user.username ? <Dashboard /> : <Register />} exact />
+					<Route path="/dashboard" element={user.username ? <Dashboard /> : <HomePage />} exact />
+					<Route path="/new" element={user.username ? <New /> : <HomePage />} exact />
+					<Route path="/responses/:formSlug" element={user.username ? <Responses /> : <HomePage />} />
 					<Route path="/form/:formSlug" element={<Form />} />
 				</Routes>
 			</BrowserRouter>
