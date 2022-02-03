@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import domain from "../common/api";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./css/Form.css";
+import "./css/Fonts.css";
 
 export default function Form() {
     const params = useParams();
@@ -86,67 +89,73 @@ export default function Form() {
 
     return (
         <div>
-            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-            {formTitle && formDescription && formViews &&
-                <form onSubmit={event => handleSubmit(event)}>
-                    <h1>{formTitle}</h1>
-                    <p>{formDescription}</p>
-                    <p>Form views: {formViews}</p>
-                    {formQuestions.map((question, index) => (
-                        <div key={`${question}-${index}`} style={{ border: "1px solid red", marginBottom: "10px", width: "fit-content", padding: "20px 10px" }}>
-                            <h3 style={{ margin: "0" }}>{index + 1}. {question.question}</h3>
-                            <br />
-                            <h4 style={{ margin: "0" }}>{question.description}</h4>
-                            <br />
-                            {question.type === "text" &&
-                                <input
-                                    type="text"
-                                    placeholder="Type your answer..."
-                                    value={question.answer[0]}
-                                    onChange={(event) => { handleTextAnswerChange(index, event) }}
-                                />
-                            }
-                            {question.type === "mcq" &&
-                                <div>
-                                    {question.options.map((singleOption, optionIndex) => (
-                                        <div>
-                                            <input
-                                                type="checkbox"
-                                                value={singleOption}
-                                                onChange={(event) => { handleMcqAnswerChange(index, optionIndex, event) }}
-                                                id={index + "." + optionIndex}
-                                            />
-                                            <label for={index + "." + optionIndex}>{singleOption}</label>
+            <div className="section1 d-flex align-items-center justify-content-center">
+                <div className="form p-4 shadow-lg">
+                {errorMessage && <h5 className="text-center" style={{ color: "#ed4245" }}>{errorMessage}</h5>}
+                    {formTitle && formDescription && formViews &&
+                        <form onSubmit={event => handleSubmit(event)}>
+                            <h3 className="text-start white mt-2">{formTitle}</h3>
+                            <p className="text-start white2 mt-3">{formDescription}</p>
+                            <hr className="formRule" />
+                            {formQuestions.map((question, index) => (
+                                <div key={`${question}-${index}`} className="formQuestion my-4">
+                                    <h5 className="question mb-1 white">{question.question}</h5>
+                                    <p className="description inputLabel white2 m-0">{question.description}</p>
+                                    {question.type === "text" &&
+                                        <input
+                                            type="text"
+                                            value={question.answer[0]}
+                                            onChange={(event) => { handleTextAnswerChange(index, event) }}
+                                            className="formInput"
+                                            spellCheck="false"
+                                            required
+                                        />
+                                    }
+                                    {question.type === "mcq" &&
+                                        <div className="mt-1">
+                                            {question.options.map((singleOption, optionIndex) => (
+                                                <div className="white2 mt-1 mcq">
+                                                    <input
+                                                        type="checkbox"
+                                                        value={singleOption}
+                                                        onChange={(event) => { handleMcqAnswerChange(index, optionIndex, event) }}
+                                                        id={index + "." + optionIndex}
+                                                    />
+                                                    <label for={index + "." + optionIndex}>{singleOption}</label>
+                                                </div>
+                                            ))
+                                            }
                                         </div>
-                                    ))}
-                                </div>
-                            }
-                            {question.type === "scq" &&
-                                <div>
-                                    {question.options.map((singleOption, optionIndex) => (
+                                    }
+                                    {question.type === "scq" &&
                                         <div>
-                                            <input
-                                                type="radio"
-                                                value={singleOption}
-                                                id={index + "." + optionIndex}
-                                                onChange={(event) => { handleScqAnswerChange(index, optionIndex, event) }}
-                                                name={index}
-                                            />
-                                            <label for={index + "." + optionIndex}>{singleOption}</label>
+                                            {question.options.map((singleOption, optionIndex) => (
+                                                <div className="white2 mcq pt-2 d-flex align-items-center">
+                                                    <input
+                                                        type="radio"
+                                                        value={singleOption}
+                                                        id={index + "." + optionIndex}
+                                                        onChange={(event) => { handleScqAnswerChange(index, optionIndex, event) }}
+                                                        name={index}
+                                                    />
+                                                    <label for={index + "." + optionIndex}>{singleOption}</label>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
+                                    }
                                 </div>
-                            }
-                        </div>
-                    ))}
-                    <button type="submit" disabled={isFetching}>
-                        {isFetching ? "Submitting..." : "Submit"}
-                    </button>
-                    <p style={{ color: error ? 'rgb(237, 66, 69)' : "green" }}>
-                        {submitMessage}
-                    </p>
-                </form>
-            }
+                            ))}
+                            <button type="submit" disabled={isFetching} className="submitButton white py-2">
+                                {isFetching ? "Submitting..." : "Submit"}
+                            </button>
+                            <p style={{ color: error ? '#ed4245' : "#61ff61" }} className="mt-3">
+                                {submitMessage}
+                                {errorMessage && <p style={{ color: "#ed4245" }}>{errorMessage}</p>}
+                            </p>
+                        </form>
+                    }
+                </div>
+            </div>
         </div>
-    )
+    );
 }

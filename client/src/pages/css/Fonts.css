@@ -32,6 +32,10 @@
     color: #b9bbbe;
 }
 
+.success1{
+    color: #ed4245;
+}
+
 a {
     cursor: pointer;
     text-decoration: none !important;
@@ -91,4 +95,22 @@ a:hover {
 
 .hoverUnderline:hover{
     text-decoration: underline!important;
+}
+
+body::-webkit-scrollbar-track {
+    border-radius: 100px;
+    background-color: transparent;
+    margin-right: 1em;
+}
+
+body::-webkit-scrollbar {
+    border-radius: 100px;
+    background-color: transparent;
+    height: 0.33em;
+    width: 4px;
+}
+
+body::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: #b9bbbe;
 }
