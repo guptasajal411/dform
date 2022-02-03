@@ -96,11 +96,14 @@ export default function Responses() {
                                     {
                                         question.answers.map((singleAnswerArray, singleAnswerIndexArray) => (
                                             <div>
-                                                {singleAnswerArray.map((singleAnswer, singleAnswerIndex) => (
-                                                    <div>
-                                                        {singleAnswer === true && <p className="m-0">{singleAnswerIndexArray + 1}. {question.options[singleAnswerIndex]}</p>}
-                                                    </div>
-                                                ))}
+                                                {singleAnswerArray.filter(boolean => boolean === true).length === 1
+                                                    ? <div>{singleAnswerArray.map((singleAnswer, singleAnswerIndex) => (
+                                                        <>
+                                                            {singleAnswer === true && <p className="m-0">{singleAnswerIndexArray + 1}. {question.options[singleAnswerIndex]}</p>}
+                                                        </>
+                                                    ))}</div>
+                                                    : <p className="m-0" style={{ color: "#ed4245" }}>{singleAnswerIndexArray + 1}. null</p>
+                                                }
                                             </div>
                                         ))
                                     }
@@ -111,15 +114,16 @@ export default function Responses() {
                                     {
                                         question.answers.map((singleAnswerArray, singleAnswerIndexArray) => (
                                             <div>
-                                                <p className="m-0">{singleAnswerIndexArray + 1}.&nbsp;
-                                                    {singleAnswerArray.map((singleAnswer, singleAnswerIndex) => (
-                                                        <>
-                                                            {singleAnswer === true && <>{question.options[singleAnswerIndex]} | </>}
-                                                            {/* {singleAnswer === true && singleAnswerIndex !== singleAnswerArray.length - 1 && <>{question.options[singleAnswerIndex]}</> } */}
-                                                            {/* {singleAnswer === true && singleAnswerIndex === singleAnswerArray.length - 1 && <>{question.options[singleAnswerIndex]}</> } */}
-                                                        </>
-                                                    ))}
-                                                </p>
+                                                {singleAnswerArray.filter(boolean => boolean === true).length === 0
+                                                    ? <p className="m-0" style={{ color: "#ed4245" }}>{singleAnswerIndexArray + 1}. null</p>
+                                                    : <p className="m-0">{singleAnswerIndexArray + 1}.&nbsp;
+                                                        {singleAnswerArray.map((singleAnswer, singleAnswerIndex) => (
+                                                            <>
+                                                                {singleAnswer === true && <>{question.options[singleAnswerIndex]} | </>}
+                                                            </>
+                                                        ))}
+                                                    </p>
+                                                }
                                             </div>
                                         ))
                                     }
