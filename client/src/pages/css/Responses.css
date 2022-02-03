@@ -1,0 +1,99 @@
+.responsesPage{
+    width: 40vw;
+    height: 90vh;
+    background: #36393f;
+    border-radius: 0.5em;
+    overflow-y: scroll;
+}
+
+.responsesPage::-webkit-scrollbar-track {
+    border-radius: 100px;
+    background-color: transparent;
+    margin-right: 1em;
+}
+
+.responsesPage::-webkit-scrollbar {
+    border-radius: 100px;
+    background-color: transparent;
+    height: 0.33em;
+    width: 4px;
+}
+
+.responsesPage::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: #b9bbbe;
+}
+
+.responsesPage .formRule{
+    background: white;
+}
+
+.responsesPage .responseLabel {
+    font-size: 0.85em;
+    padding-bottom: 0.25em;
+}
+
+.responsesPage .responsesBox{
+    background-color: #303339;
+    border: 0;
+    outline: 1px solid #04040588;
+    border-radius: 0.25em;
+    width: 100%;
+    white-space: nowrap;
+    overflow: auto;
+}
+
+.responsesPage .responsesBox::-webkit-scrollbar-track {
+    border-radius: 100px;
+    background-color: transparent;
+}
+
+.responsesPage .responsesBox::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 100px;
+    background-color: transparent;
+    height: 0.33em;
+}
+
+.responsesPage .responsesBox::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: #b9bbbe;
+}
+
+.responsesPage .errorButton{
+    border-radius: 0.25em;
+    background: #5865f2;
+    border: 0;
+    outline: 0;
+    transition: all 0.33s;
+    margin-bottom: 0.25em;
+}
+
+.responsesPage .errorButton:hover{
+    background: #4959ff;
+}
+
+.responsesPage .errorButton:active{
+    transform: scale(0.95);
+}
+
+@media only screen and (max-width: 1200px) {
+    .responsesPage{
+        width: 60vw;
+    }
+}
+@media only screen and (max-width: 992px) {
+    .responsesPage{
+        width: 75vw;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .responsesPage{
+        width: 80vw;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .responsesPage{
+        width: 90vw;
+    }
+}
