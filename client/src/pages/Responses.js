@@ -14,8 +14,10 @@ export default function Responses() {
     const [formDescription, setFormDescription] = useState("");
     const [formViews, setFormViews] = useState();
     const [formQuestions, setFormQuestions] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         async function responses() {
             await fetch(domain + "/api/responses/" + params.formSlug, {
                 headers: { "x-access-token": localStorage.getItem("token") },
@@ -24,6 +26,7 @@ export default function Responses() {
                 .then(response => response.json())
                 .then((jsonData) => {
                     if (jsonData.status === "ok") {
+                        setIsLoading(false);
                         setFormTitle(jsonData.form.formTitle);
                         setFormDescription(jsonData.form.formDescription);
                         jsonData.form.formQuestions.map((question) => {
@@ -39,6 +42,7 @@ export default function Responses() {
                         setFormQuestions(jsonData.form.formQuestions);
                         setFormViews(jsonData.form.formViews);
                     } else {
+                        setIsLoading(false);
                         setErrorMessage(jsonData.message);
                     }
                 });
@@ -50,6 +54,11 @@ export default function Responses() {
         <div>
             <div className="section1 d-flex align-items-center justify-content-center">
                 <div className="responsesPage p-4 shadow-lg">
+                    {isLoading &&
+                        <div>
+                            <h3 className="text-center white mt-2">Loading form responses...</h3>
+                        </div>
+                    }
                     {errorMessage &&
                         <div className="d-flex align-items-center justify-content-center flex-column mt-4">
                             <h5 className="text-center mb-4" style={{ color: "#ed4245" }}>{errorMessage}</h5>

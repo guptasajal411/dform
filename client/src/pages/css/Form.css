@@ -144,13 +144,13 @@
     font-size: 1.375em;
     color: #01adf1;
     line-height: 0;
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
+    -webkit-transition: all 0.33s;
+    transition: all 0.33s;
 }
 [type="checkbox"]:not(:checked) + label:after {
     opacity: 0;
-    -webkit-transform: scale(0) rotate(45deg);
-    transform: scale(0) rotate(45deg);
+    -webkit-transform: scale(0) rotate(180deg);
+    transform: scale(0) rotate(180deg);
 }
 [type="checkbox"]:checked + label:after {
     opacity: 1;

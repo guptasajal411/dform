@@ -15,6 +15,7 @@ export default function Form() {
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState(false);
     const [submitMessage, setSubmitMessage] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function dashboard() {
@@ -24,6 +25,7 @@ export default function Form() {
                 .then(response => response.json())
                 .then((jsonData) => {
                     if (jsonData.status === "ok") {
+                        setIsLoading(false);
                         setFormTitle(jsonData.form.formTitle);
                         setFormDescription(jsonData.form.formDescription);
                         jsonData.form.formQuestions.map((question) => {
@@ -39,6 +41,7 @@ export default function Form() {
                         setFormQuestions(jsonData.form.formQuestions);
                         setFormViews(jsonData.form.formViews);
                     } else {
+                        setIsLoading(false);
                         setErrorMessage(jsonData.message);
                     }
                 });
@@ -91,7 +94,11 @@ export default function Form() {
         <div>
             <div className="section1 d-flex align-items-center justify-content-center">
                 <div className="form p-4 shadow-lg">
-                {errorMessage && <h5 className="text-center" style={{ color: "#ed4245" }}>{errorMessage}</h5>}
+                    {isLoading &&
+                        <div>
+                            <h3 className="text-center white mt-2">Loading your form...</h3>
+                        </div>
+                    }             {errorMessage && <h5 className="text-center" style={{ color: "#ed4245" }}>{errorMessage}</h5>}
                     {formTitle && formDescription && formViews &&
                         <form onSubmit={event => handleSubmit(event)}>
                             <h3 className="text-start white mt-2">{formTitle}</h3>
