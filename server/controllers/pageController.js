@@ -1,8 +1,11 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
+exports.getHome = (req, res) => {
+    res.status(200).send({ status: "ok", message: "server is up and running" });
+}
+
 exports.getDashboard = (req, res) => {
-    console.log("going through main function")
     User.findOne({ username: req.headers["username"] }, (err, foundUser) => {
         if (foundUser) {
             res.status(200).send({

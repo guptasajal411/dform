@@ -11,6 +11,10 @@ app.use(cors());
 app.use(express.json());
 
 app
+    .route("/")
+    .get(pageController.getHome);
+
+app
     .route("/api/register")
     .post(authController.postRegister);
 
