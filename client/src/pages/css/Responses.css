@@ -41,6 +41,7 @@
     width: 100%;
     white-space: nowrap;
     overflow: auto;
+    max-height: 40vh;
 }
 
 .responsesPage .responsesBox::-webkit-scrollbar-track {

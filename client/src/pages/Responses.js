@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import domain from "../common/api";
+import UserContext from "../context/UserContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/Responses.css";
 import "./css/Fonts.css";
@@ -15,12 +16,13 @@ export default function Responses() {
     const [formViews, setFormViews] = useState();
     const [formQuestions, setFormQuestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const { user, setUser } = useContext(UserContext);
 
     useEffect(() => {
         setIsLoading(true);
         async function responses() {
             await fetch(domain + "/api/responses/" + params.formSlug, {
-                headers: { "x-access-token": localStorage.getItem("token") },
+                headers: { "x-access-token": localStorage.getItem("token"), "username": localStorage.getItem("username") },
                 method: "GET"
             })
                 .then(response => response.json())
@@ -44,6 +46,10 @@ export default function Responses() {
                     } else {
                         setIsLoading(false);
                         setErrorMessage(jsonData.message);
+                        setUser({ username: null, token: null });
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("username");
+                        navigate("/login");
                     }
                 });
         }

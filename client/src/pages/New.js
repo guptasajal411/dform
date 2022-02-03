@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import domain from "../common/api";
+import UserContext from "../context/UserContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/New.css";
 import "./css/Fonts.css";
@@ -8,7 +9,7 @@ import "./css/Fonts.css";
 export default function New() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState();
-    const [username, setUsername] = useState();
+    const [error, setError] = useState(false);
     const [formTitle, setFormTitle] = useState("");
     const [formDescription, setFormDescription] = useState("");
     const [postFormError, setPostFormError] = useState();
@@ -23,29 +24,43 @@ export default function New() {
             }
         ]
     );
+    const { user, setUser } = useContext(UserContext);
 
     useEffect(() => {
-        async function dashboard() {
-            if (localStorage.getItem("token")) {
+        async function newForm() {
+            if (user.username) {
                 await fetch(domain + "/api/new", {
-                    headers: { "x-access-token": localStorage.getItem("token") },
+                    headers: { "x-access-token": localStorage.getItem("token"), "username": localStorage.getItem("username") },
                     method: "GET"
                 })
                     .then(response => response.json())
                     .then((jsonData) => {
-                        console.log(jsonData);
+                        console.log(jsonData)
                         if (jsonData.status === "ok") {
-                            setUsername(jsonData.username);
+                            setError(false);
                         } else {
+                            setError(true);
                             setErrorMessage(jsonData.message);
+                            setUser({ username: null, token: null });
+                            localStorage.removeItem("token");
+                            localStorage.removeItem("username");
+                            setTimeout(() => {
+                                navigate("/login")
+                            }, 500)
                         }
                     });
             } else {
                 // token not available
+                setUser({ username: null, token: null });
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
                 setErrorMessage("JWT not available. Please try logging in first.");
+                setTimeout(() => {
+                    navigate("/login")
+                }, 500)
             }
         }
-        dashboard();
+        newForm();
     }, []);
 
     async function handleSubmit(event) {
@@ -54,10 +69,11 @@ export default function New() {
         await fetch(domain + "/api/new", {
             headers: {
                 "x-access-token": localStorage.getItem("token"),
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "username": localStorage.getItem("username")
             },
             body: JSON.stringify({
-                formAuthorUsername: username,
+                formAuthorUsername: user.username,
                 formTitle,
                 formDescription,
                 formQuestions: form
@@ -74,9 +90,23 @@ export default function New() {
                 } else {
                     setPostFormIsError(true);
                     setIsFetching(false);
+                    setUser({ username: null, token: null });
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("username");
+                    setTimeout(() => {
+                        navigate("/login")
+                    }, 500)
                 }
             })
-            .catch(error => postFormError(error));
+            .catch(error => {
+                postFormError(error)
+                setUser({ username: null, token: null });
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+                setTimeout(() => {
+                    navigate("/login")
+                }, 500)
+            });
     }
 
     function handleAddQuestion() {
