@@ -1,0 +1,117 @@
+.newForm{
+    width: 40vw;
+    height: 90vh;
+    background: #36393f;
+    border-radius: 0.5em;
+    overflow-y: scroll;
+}
+
+.newForm::-webkit-scrollbar-track, .newForm .textInput::-webkit-scrollbar-track {
+    border-radius: 100px;
+    background-color: transparent;
+    margin-right: 1em;
+}
+
+.newForm::-webkit-scrollbar, .newForm .textInput::-webkit-scrollbar {
+    border-radius: 100px;
+    background-color: transparent;
+    height: 0.33em;
+    width: 4px;
+}
+
+.newForm::-webkit-scrollbar-thumb, .newForm .textInput::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: #b9bbbe;
+}
+
+.newForm .textInput{
+    background-color: #303339;
+    border: 0;
+    outline: 1px solid #04040588;
+    border-radius: 0.25em;
+    padding: 0.5em;
+    width: 100%;
+    transition: all 0.33s;
+}
+
+.newForm .textInput:hover{
+    outline: 1px solid #040405;
+}
+
+.newForm .textInput:focus-visible{
+    outline: 1px solid #01ADF1;
+}
+
+.newForm .inputLabel{
+    font-size: 0.85em;
+    padding-bottom: 0.25em;
+}
+
+.newForm .newQuestion{
+    width: fit-content;
+    display: inline;
+}
+
+.newForm .deleteQuestion{
+    font-size: 1.75em;
+    cursor: pointer;
+}
+
+.newForm .newSelect{
+    background-color: #303339;
+    border: 0;
+    outline: 1px solid #04040588;
+    border-radius: 0.25em;
+    padding: 0.6em;
+    font-size: 1em;
+    width: 100%;
+    transition: all 0.33s;
+}
+
+.newForm .addQuestionButton{
+    width: 100%;
+    border: 2px solid #01adf1;
+}
+
+.newForm .addQuestionButton:hover{
+    background-color: #01adf156;
+}
+
+.newForm .createButton{
+    width: 100%;
+    background: #01adf1;
+}
+
+.newForm .createButton:hover{
+    background-color: #01adf1bb;
+}
+
+.newRule{
+    background: white;
+    opacity: 10%;
+}
+
+@media only screen and (max-width: 1200px) {
+    .newForm{
+        width: 60vw;
+    }
+}
+@media only screen and (max-width: 992px) {
+    .newForm{
+        width: 75vw;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .newForm{
+        width: 80vw;
+    }
+
+    .newForm .submitButton{
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .newForm{
+        width: 90vw;
+    }
+}

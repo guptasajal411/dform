@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import domain from "../common/api";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./css/New.css";
+import "./css/Fonts.css";
 
 export default function New() {
+    const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState();
     const [username, setUsername] = useState();
     const [formTitle, setFormTitle] = useState("");
@@ -46,7 +51,6 @@ export default function New() {
     async function handleSubmit(event) {
         event.preventDefault();
         setIsFetching(true);
-        window.scrollTo(0, 0);
         await fetch(domain + "/api/new", {
             headers: {
                 "x-access-token": localStorage.getItem("token"),
@@ -66,9 +70,7 @@ export default function New() {
                 if (jsonData.status === "ok") {
                     setPostFormIsError(false);
                     setIsFetching(false);
-                    setTimeout(() => {
-                        window.location.href = "/dashboard";
-                    }, 800);
+                    navigate("/dashboard");
                 } else {
                     setPostFormIsError(true);
                     setIsFetching(false);
@@ -94,7 +96,6 @@ export default function New() {
         const questions = [...form];
         questions.splice(index, 1);
         setForm(questions);
-        // return true;
     }
 
     function handleQuestionChange(index, event) {
@@ -129,78 +130,106 @@ export default function New() {
     }
     return (
         <div>
-            {username ? <h1>Welcome, {username}</h1> : <h1>Welcome</h1>}
-            <hr />
-            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-            {<p style={{ color: setPostFormIsError ? "red" : "green" }}>{postFormError}</p>}
-            {!errorMessage &&
-                <div>
-                    <h1>Create a new form:</h1>
-                    <label>Form title: </label>
-                    <input
-                        type="text"
-                        value={formTitle}
-                        onChange={event => setFormTitle(event.target.value)}
-                    />
-                    <label>Form description: </label>
-                    <input
-                        type="text"
-                        value={formDescription}
-                        onChange={event => setFormDescription(event.target.value)}
-                    />
-                    <br />
-                    {form.map((question, index) => (
-                        <div key={`${question}-${index}`} style={{ border: "1px solid red", marginBottom: "10px", width: "fit-content", padding: "20px 10px" }}>
+            <div className="section1 d-flex align-items-center justify-content-center">
+                <div className="newForm p-4">
+                    <form onSubmit={handleSubmit}>
+                        {!errorMessage &&
                             <div>
-                                <p>Question {index + 1}</p>
-                                <button onClick={index => handleQuestionRemoval(index)} disabled={isFetching}>Remove this question</button>
-                            </div>
-                            <label>Question: </label>
-                            <input
-                                type="text"
-                                value={question.question || ""}
-                                onChange={event => handleQuestionChange(index, event)}
-                            />
-                            <br />
-                            <label>Description: </label>
-                            <input
-                                type="text"
-                                value={question.description || ""}
-                                onChange={event => handleDescriptionChange(index, event)}
-                            />
-                            <br />
-                            <label>Type: </label>
-                            <select value={question.type} onChange={event => handleTypeChange(index, event)}>
-                                <option value="text">Text answer</option>
-                                <option value="mcq">Multiple choice answer</option>
-                                <option value="scq">Single choice answer</option>
-                            </select>
-                            <br />
-                            {question.type !== "text" &&
-                                <div>
-                                    {question.options.map((singleOption, optionIndex) => (
+                                <h3 className="text-center white">Create a new form</h3>
+                                <p className="inputLabel mb-0 mt-4 white2">FORM TITLE</p>
+                                <input
+                                    type="text"
+                                    value={formTitle}
+                                    className="textInput mb-4 white"
+                                    onChange={event => setFormTitle(event.target.value)}
+                                    required
+                                />
+                                <p className="inputLabel mb-0 white2">FORM DESCRIPTION</p>
+                                <textarea
+                                    type="text"
+                                    value={formDescription}
+                                    className="textInput white"
+                                    rows="3"
+                                    onChange={event => setFormDescription(event.target.value)}
+                                    required
+                                />
+                                {form.map((question, index) => (
+                                    <div key={`${question}-${index}`}>
+                                        <hr className="newRule" />
                                         <div>
-                                            <label>Option {optionIndex + 1}: </label>
-                                            <input
-                                                type="text"
-                                                value={singleOption}
-                                                onChange={event => handleOptionChange(index, optionIndex, event)}
-                                            />
+                                            <h4 className="white newQuestion">Question {index + 1}</h4>
+                                            <span onClick={index => handleQuestionRemoval(index)} class="material-icons-outlined white float-end deleteQuestion">
+                                                close
+                                            </span>
                                         </div>
-                                    ))}
-                                    <button onClick={() => { handleAddOption(index) }} disabled={isFetching}>Add new option</button>
+                                        <p className="inputLabel mb-0 mt-3 white2">YOUR QUESTION</p>
+                                        <input
+                                            type="text"
+                                            value={question.question || ""}
+                                            className="textInput mb-3 white"
+                                            onChange={event => handleQuestionChange(index, event)}
+                                            required
+                                        />
+                                        <div className="row">
+                                            <div className="col-sm-6 col-12">
+                                                <p className="inputLabel mb-0 white2">DESCRIPTION</p>
+                                                <textarea
+                                                    type="text"
+                                                    value={question.description || ""}
+                                                    className="textInput mb-3 white"
+                                                    rows="1"
+                                                    onChange={event => handleDescriptionChange(index, event)}
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="col-sm-6 col-12">
+                                                <label className="inputLabel mb-0 pb-0 white2">TYPE</label> <br />
+                                                <select className="newSelect white" value={question.type} onChange={event => handleTypeChange(index, event)}>
+                                                    <option className="newSelect" value="text">Text answer</option>
+                                                    <option className="newSelect" value="mcq">Multiple choice answer</option>
+                                                    <option className="newSelect" value="scq">Single choice answer</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {question.type !== "text" &&
+                                            <div className="row align-items-center">
+                                                {question.options.map((singleOption, optionIndex) => (
+                                                    <div className="col-sm-6 col-12 mt-sm-0 mt-4">
+                                                        <p className="inputLabel mb-0 white2">OPTION {optionIndex + 1}</p>
+                                                        <input
+                                                            type="text"
+                                                            value={singleOption}
+                                                            className="textInput mb-3 white"
+                                                            required
+                                                            onChange={event => handleOptionChange(index, optionIndex, event)}
+                                                        />
+                                                    </div>
+                                                ))}
+                                                <div className="col-sm-6 col-12">
+                                                    <button type="button" className="secondaryButton addQuestionButton truncateToOneLine" onClick={() => { handleAddOption(index) }} disabled={isFetching}>Add a new option</button>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                ))}
+                                <hr className="newRule m-0" />
+                                <div className="row mt-3">
+                                    <div className="col-md-6 col-12">
+                                        <button type="button" className="secondaryButton addQuestionButton truncateToOneLine" onClick={() => { handleAddQuestion() }} disabled={isFetching}>
+                                            Add a new question
+                                        </button>
+                                    </div>
+                                    <div className="col-md-6 col-12 mt-md-0 mt-3">
+                                        <button className="createButton primaryButton truncateToOneLine" type="submit" disabled={isFetching}>
+                                            {isFetching ? <p style={{ margin: "0" }}>Creating your form...</p> : <p style={{ margin: "0" }}>Create form</p>}
+                                        </button>
+                                    </div>
                                 </div>
-                            }
-                        </div>
-                    ))}
-                    <button onClick={() => { handleAddQuestion() }} disabled={isFetching}>
-                        Add a new question
-                    </button>
-                    <button onClick={handleSubmit} disabled={isFetching}>
-                        {isFetching ? <p style={{margin: "0"}}>Creating your form...</p> : <p style={{margin: "0"}}>Create form</p>}
-                    </button>
+                            </div>
+                        }
+                    </form>
                 </div>
-            }
+            </div>
         </div>
     )
 }
