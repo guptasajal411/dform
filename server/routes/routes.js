@@ -28,8 +28,8 @@ app
 
 app
     .route("/api/new")
-    .get(pageController.getNew)
-    .post(pageController.postNew);
+    .get(middleware.verifyMiddleware, pageController.getNew)
+    .post(middleware.verifyMiddleware, pageController.postNew);
 
 app
     .route("/api/form/:formSlug")
@@ -38,6 +38,6 @@ app
 
 app
     .route("/api/responses/:formSlug")
-    .get(responsesController.getResponses);
+    .get(middleware.verifyMiddleware, responsesController.getResponses);
 
 module.exports = app;

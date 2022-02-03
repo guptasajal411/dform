@@ -21,25 +21,14 @@ exports.getDashboard = (req, res) => {
 }
 
 exports.getNew = (req, res) => {
-    const token = req.headers["x-access-token"];
-    jwt.verify(token, process.env.TOKEN_SIGN_KEY, (err, decoded) => {
-        if (decoded) {
-            User.findOne({ email: decoded.email }, (err, foundUser) => {
-                if (foundUser) {
-                    res.status(200).send({
-                        status: 'ok',
-                        message: "JWT is valid.",
-                        email: foundUser.email,
-                        username: foundUser.username
-                    });
-                } else {
-                    res.status(501).send({ status: 'error', message: "JWT is invalid. Please log in again." });
-                }
+    User.findOne({ username: req.headers["username"] }, (err, foundUser) => {
+        if (foundUser) {
+            res.status(200).send({
+                status: 'ok',
+                message: "JWT is valid."
             });
-        } else if (err) {
-            res.status(501).send({ status: 'error', message: "An error occurred while verifying JWT. Please log in again." });
         } else {
-            res.status(501).send({ status: "error", message: "JWT is invalid. Please log in again." });
+            res.status(501).send({ status: 'error', message: "JWT is invalid. Please log in again." });
         }
     });
 }
@@ -54,30 +43,21 @@ exports.postNew = (req, res) => {
         }
         return result;
     }
-    const token = req.headers["x-access-token"];
-    jwt.verify(token, process.env.TOKEN_SIGN_KEY, (err, decoded) => {
-        if (decoded) {
-            User.findOne({ email: decoded.email }, async (err, foundUser) => {
-                if (foundUser) {
-                    const formSlug = createSlug(3) + "-" + createSlug(4) + "-" + createSlug(3)
-                    foundUser.forms.push({
-                        formAuthorUsername: foundUser.username,
-                        formTitle: req.body.formTitle,
-                        formDescription: req.body.formDescription,
-                        formQuestions: req.body.formQuestions,
-                        formSlug: formSlug,
-                        formViews: 0
-                    });
-                    await foundUser.save();
-                    res.status(200).send({ status: 'ok', message: "Form created! Redirecting you to your dashboard..." });
-                } else {
-                    res.status(501).send({ status: 'error', message: "JWT is invalid. Please log in again." });
-                }
+    User.findOne({ username: req.headers["username"] }, async (err, foundUser) => {
+        if (foundUser) {
+            const formSlug = createSlug(3) + "-" + createSlug(4) + "-" + createSlug(3)
+            foundUser.forms.push({
+                formAuthorUsername: foundUser.username,
+                formTitle: req.body.formTitle,
+                formDescription: req.body.formDescription,
+                formQuestions: req.body.formQuestions,
+                formSlug: formSlug,
+                formViews: 1
             });
-        } else if (err) {
-            res.status(501).send({ status: 'error', message: "An error occurred while verifying JWT. Please log in again." });
+            await foundUser.save();
+            res.status(200).send({ status: 'ok', message: "Form created! Redirecting you to your dashboard..." });
         } else {
-            res.status(501).send({ status: "error", message: "JWT is invalid. Please log in again." });
+            res.status(501).send({ status: 'error', message: "JWT is invalid. Please log in again." });
         }
     });
 }
